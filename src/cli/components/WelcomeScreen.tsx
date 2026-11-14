@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import { getModelDisplayName } from "@/agent/model";
 import { isLocalBackendEnabled } from "@/backend";
 import { getStartupModelDisplayOverride } from "@/cli/helpers/startup-model-display";
-import { useTerminalWidth } from "@/cli/hooks/use-terminal-width";
+import { useTerminalWidth } from "@/cli/hooks/use-terminal-width"; // MATRIXÄ: lluvia a ancho completo
+import { t } from "@/cli/i18n"; // MATRIXÄ i18n
 import { settingsManager } from "@/settings-manager";
 import { getVersion } from "@/version";
 import { AnimatedLogo } from "./AnimatedLogo";
 import { colors } from "./colors";
+import { MatrixRain } from "./MatrixRain"; // MATRIXÄ
 import { Text } from "./Text";
 import { getPalette } from "./theme"; // MATRIXÄ
 
@@ -79,8 +81,8 @@ export function WelcomeScreen({
   agentState?: Letta.AgentState | null;
   startupHasAvailableLocalModels?: boolean;
 }) {
-  // Keep hook call for potential future responsive behavior
-  useTerminalWidth();
+  // MATRIXÄ: el ancho real manda en la lluvia de bienvenida
+  const termWidth = useTerminalWidth();
   const cwd = process.cwd();
   const version = getVersion();
 
@@ -131,14 +133,25 @@ export function WelcomeScreen({
   const matrixa = getPalette() === "matrixa";
 
   return (
-    <Box flexDirection="row" marginTop={1}>
-      {/* Left column: Logo */}
-      <Box flexDirection="column" paddingLeft={1} paddingRight={2}>
-        <AnimatedLogo
-          color={colors.welcome.accent}
-          animate={loadingState !== "ready"}
-        />
-      </Box>
+    <Box flexDirection={matrixa ? "column" : "row"} marginTop={1}>
+      {/* MATRIXÄ: en casa la lluvia preside a todo lo ancho; el logo clásico
+          se queda exactamente como estaba para el tema upstream */}
+      {matrixa ? (
+        <Box paddingLeft={1} marginBottom={1}>
+          <MatrixRain
+            cols={Math.max(48, Math.min(termWidth - 7, 108))}
+            rows={6}
+            dropsPerCol={3}
+          />
+        </Box>
+      ) : (
+        <Box flexDirection="column" paddingLeft={1} paddingRight={2}>
+          <AnimatedLogo
+            color={colors.welcome.accent}
+            animate={loadingState !== "ready"}
+          />
+        </Box>
+      )}
 
       {/* Right column: Text info */}
       <Box flexDirection="column" marginTop={0}>
@@ -147,9 +160,7 @@ export function WelcomeScreen({
             <Text bold color={colors.welcome.accent}>
               {"M A T R I X  Ä"}
             </Text>
-            <Text dimColor>
-              {"  // fork de Letta Code · la colmena en verde"}
-            </Text>
+            <Text dimColor>{"  · la colmena en verde"}</Text>
           </Box>
         )}
         {/* Row 1: Letta Code + version (MATRIXÄ rebautiza cuando toca) */}
@@ -160,7 +171,7 @@ export function WelcomeScreen({
           <Text color="gray">
             {" "}
             v{version}
-            {matrixa ? " · matrixa" : ""}
+            {matrixa ? t("welcome.version_suffix") : ""}
           </Text>
         </Box>
         {/* Row 2: model · auth (or just auth while loading) */}
@@ -171,7 +182,7 @@ export function WelcomeScreen({
         <Text color="gray">
           {loadingState === "ready"
             ? matrixa
-              ? `${tildePath}  · wake up, Neo…`
+              ? `${tildePath}  ${t("welcome.wake")}`
               : tildePath
             : getLoadingMessage(loadingState, !!continueSession, matrixa)}
         </Text>
@@ -192,18 +203,16 @@ function getLoadingMessage(
   continueSession: boolean,
   matrixa = false,
 ): string {
-  // MATRIXÄ: los mensajes de carga en cristiano de la Matrix
+  // MATRIXÄ i18n: los mensajes de carga, en el idioma de la casa
   if (matrixa) {
     const neo: Record<string, string> = {
-      loading_profiles: "Waking the hive…",
-      initializing: continueSession
-        ? "Replugging the rabbit hole…"
-        : "Following the white rabbit…",
-      assembling: "Assembling reality…",
-      checking: "Checking for red pills…",
-      selecting_global: "Choosing your pill…",
+      loading_profiles: "load.profiles",
+      initializing: continueSession ? "load.init_resume" : "load.init_new",
+      assembling: "load.assembling",
+      checking: "load.checking",
+      selecting_global: "load.selecting",
     };
-    return neo[loadingState] ?? "Decoding the Matrix…";
+    return t(neo[loadingState] ?? "load.default");
   }
   switch (loadingState) {
     case "loading_profiles":

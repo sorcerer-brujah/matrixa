@@ -46,6 +46,7 @@ import { getRandomThinkingTip } from "@/cli/helpers/thinking-messages";
 import { useProductStatusPanels } from "@/cli/hooks/use-product-status-panels";
 import { useShimmerAnimation } from "@/cli/hooks/use-shimmer-animation";
 import { useTokenSmoothing } from "@/cli/hooks/use-token-smoothing";
+import { t as i18nT } from "@/cli/i18n"; // MATRIXÄ i18n
 import type { ModContext } from "@/cli/mods/types";
 import type { LocalModAdapter } from "@/cli/mods/use-local-mod-adapter";
 import {
@@ -76,11 +77,12 @@ const ESC_CLEAR_WINDOW_MS = 2500;
 const FOOTER_WIDTH_STREAMING_DELTA = 2;
 const EMPTY_COMPOSER_PROMPT_ROTATION_MS = 6000;
 const STATUSLINE_TRANSIENT_HINT_MS = 3000;
+// MATRIXÄ i18n: claves traducidas al vuelo en el punto de uso (línea base de tamaño)
 const EMPTY_COMPOSER_PROMPT_HINTS = [
-  'Try "help me understand this codebase"',
-  'Try "help me organize my desktop"',
-  'Try "debug this error"',
-  'Try "explain what this function does"',
+  "ph.help",
+  "ph.desktop",
+  "ph.debug",
+  "ph.explain",
   'Try "review this pull request"',
 ];
 
@@ -1168,7 +1170,7 @@ export function Input({
   }, [showInspirationalPromptHints, value, emptyPromptHintReady]);
 
   const inspirationalPlaceholder = showInspirationalPromptHints
-    ? (EMPTY_COMPOSER_PROMPT_HINTS[emptyPromptHintIndex] ?? undefined)
+    ? i18nT(EMPTY_COMPOSER_PROMPT_HINTS[emptyPromptHintIndex] ?? "ph.help")
     : undefined;
   const showInspirationalPlaceholder =
     showInspirationalPromptHints &&

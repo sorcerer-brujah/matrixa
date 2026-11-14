@@ -1,61 +1,81 @@
 #!/usr/bin/env python3
-"""MATRIXÄ — ANSI (crudo, de scripts/matrixa-demo.tsx) a HTML con fondo negro.
+"""MATRIXÄ — ANSI (stream de reescritura de Ink) → HTML del FOTOGRAMA FINAL.
 
-Usado para disparar una captura PNG del tema sin abrir un segundo CLI:
-  bun scripts/matrixa-demo.tsx /tmp/demo.ans && python3 tools/ansi2html.py /tmp/demo.ans /tmp/demo.html
-  chromium --headless=new --window-size=1000,560 --screenshot=/tmp/demo.png file:///tmp/demo.html
-Soporta SGR: reset, bold, dim, foreground/background truecolor (38;2/48;2).
+pyte reproduce la secuencia completa en un terminal virtual; lo que queda es la
+pantalla tal cual la vería el usuario: celdas con glifo, fg y bg reales.
+
+Uso: python3 tools/ansi2html.py [in.ans] [out.html] [cols] [filas]
 """
 import html
 import re
 import sys
 
+import pyte
+
 SRC = sys.argv[1] if len(sys.argv) > 1 else "/tmp/matrixa-demo.ans"
 DST = sys.argv[2] if len(sys.argv) > 2 else "/tmp/matrixa-demo.html"
+COLS = int(sys.argv[3]) if len(sys.argv) > 3 else 96
+ROWS = int(sys.argv[4]) if len(sys.argv) > 4 else 40
 
-raw = open(SRC, "rb").read().decode("utf-8", "replace")
-raw = re.sub(r"\x1b\[\?25l|\x1b\[\?25h|\x1b\[K", "", raw)
-raw = re.sub(r"\x1b\[[0-9]*[A-F]", "", raw)  # movimientos de cursor simples
+data = open(SRC, "rb").read().decode("utf-8", "replace")
 
-out, cur = [], {}
-for part in re.split(r"(\x1b\[[0-9;]*m)", raw):
-    m = re.fullmatch(r"\x1b\[([0-9;]*)m", part or "")
-    if m:
-        codes = [int(c) for c in m.group(1).split(";")] if m.group(1) else [0]
-        i = 0
-        while i < len(codes):
-            c = codes[i]
-            if c == 0:
-                cur = {}
-            elif c == 1:
-                cur["b"] = 1
-            elif c == 2:
-                cur["dim"] = 1
-            elif c in (38, 48) and i + 4 < len(codes) and codes[i + 1] == 2:
-                key = "fg" if c == 38 else "bg"
-                cur[key] = "#{:02x}{:02x}{:02x}".format(codes[i + 2], codes[i + 3], codes[i + 4])
-                i += 4
-            i += 1
-        continue
-    for txt in (part or "").split("\n"):
-        s = html.escape(txt)
-        st = []
-        if cur.get("fg"):
-            st.append(f"color:{cur['fg']}")
-        if cur.get("bg"):
-            st.append(f"background:{cur['bg']}")
-        if cur.get("b"):
-            st.append("font-weight:700")
-        if cur.get("dim"):
-            st.append("opacity:.55")
-        out.append(f'<span style="{";".join(st)}">{s}</span><br>' if st else f"{s}<br>")
+screen = pyte.Screen(COLS, ROWS)
+stream = pyte.Stream(screen)
+# arrancar desde pantalla limpia
+stream.feed("\x1b[2J\x1b[H")
+stream.feed(data)
+
+def to_hex(v):
+    # pyte da componentes 0..255 como cadenas
+    try:
+        return "#{:02x}{:02x}{:02x}".format(int(v[0:2], 16), int(v[2:4], 16), int(v[4:6], 16))
+    except Exception:
+        return None
+
+lines_html = []
+for y in range(ROWS):
+    parts, run, run_style = [], [], None
+    for x in range(COLS):
+        ch = screen.buffer[y][x]
+        fg = ch.fg if isinstance(ch.fg, str) and len(ch.fg) == 6 else None
+        bg = ch.bg if isinstance(ch.bg, str) and len(ch.bg) == 6 else None
+        style = ("color:#" + fg if fg else "") + (";background:#" + bg if bg else "") + (
+            ";font-weight:700" if ch.bold else ""
+        )
+        if style != run_style:
+            if run:
+                key = run_style or ""
+                parts.append(
+                    f'<span style="{key}">{html.escape("".join(run))}</span>'
+                    if key
+                    else html.escape("".join(run))
+                )
+            run, run_style = [], style
+        run.append(ch.data if ch.data else " ")
+    if run:
+        parts.append(
+            f'<span style="{run_style}">{html.escape("".join(run))}</span>'
+            if run_style
+            else html.escape("".join(run))
+        )
+    line = "".join(parts)
+    texto_plano = re.sub(r"<[^>]+>", "", line)
+    if texto_plano.strip():
+        lines_html.append(line + "<br>")
+    elif any(("<span" in p and "#" in p and "background" in p) for p in parts):
+        # fila visualmente vacía pero con fondos pintados: conservar hueco
+        lines_html.append((line or " ") + "<br>")
+
+# recortar filas totalmente vacías por debajo del contenido
+while lines_html and not re.sub(r"<[^>]+>", "", lines_html[-1]).strip():
+    lines_html.pop()
 
 css = (
-    "body{margin:16px;background:#050a07;color:#d6ffea;"
+    "body{margin:14px;background:#000;color:#d9f2df;"
     'font-family:"JetBrainsMono","DejaVu Sans Mono",monospace;'
-    "font-size:15px;line-height:1.35;white-space:pre}"
+    "font-size:14px;line-height:1.28;white-space:pre}"
 )
 open(DST, "w", encoding="utf-8").write(
-    f'<html><head><meta charset="utf-8"><style>{css}</style></head><body>{"".join(out)}</body></html>'
+    f'<html><head><meta charset="utf-8"><style>{css}</style></head><body>{"".join(lines_html)}</body></html>'
 )
-print(f"{SRC} -> {DST}")
+print(f"{SRC} -> {DST} ({COLS}x{ROWS}, fotograma final)")
