@@ -1,6 +1,7 @@
 import { Box, useInput } from "ink";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { commands } from "@/cli/commands/registry";
+import { td } from "@/cli/i18n-commands-es"; // MATRIXÄ i18n
 import { getVersion } from "@/version";
 import { colors } from "./colors";
 import { OverlayShell } from "./OverlayShell";
@@ -40,7 +41,7 @@ export function HelpDialog({ onClose }: HelpDialogProps) {
         setCustomCommands(
           customs.map((cmd) => ({
             name: `/${cmd.id}`,
-            description: `${cmd.description} (${cmd.source}${cmd.namespace ? `:${cmd.namespace}` : ""})`,
+            description: `${td(cmd.description)} (${cmd.source}${cmd.namespace ? `:${cmd.namespace}` : ""})`, // MATRIXÄ i18n
             order: 200 + (cmd.source === "project" ? 0 : 100),
           })),
         );

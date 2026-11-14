@@ -6,6 +6,7 @@ import {
   useTerminalRows,
   useTerminalWidth,
 } from "@/cli/hooks/use-terminal-width";
+import { td } from "@/cli/i18n-commands-es"; // MATRIXÄ i18n
 import { settingsManager } from "@/settings-manager";
 import { AutocompleteBox, AutocompleteItem } from "./Autocomplete";
 import { Text } from "./Text";
@@ -30,7 +31,7 @@ const _allCommands: CommandMatch[] = Object.entries(commands)
   .filter(([, { hidden }]) => !hidden)
   .map(([cmd, { desc, order }]) => ({
     cmd,
-    desc,
+    desc: td(desc), // MATRIXÄ i18n: presentación en el idioma de la casa
     order: order ?? 100, // Default order for commands without explicit order
   }))
   .sort((a, b) => a.order - b.order);
@@ -303,7 +304,7 @@ export function SlashCommandAutocomplete({
         );
         // 2-char gutter comes from <AutocompleteItem />.
         const maxDescWidth = Math.max(0, columns - 2 - CMD_COL_WIDTH - 1);
-        const displayDesc = truncateText(item.desc, maxDescWidth);
+        const displayDesc = truncateText(td(item.desc), maxDescWidth); // MATRIXÄ i18n
 
         return (
           <AutocompleteItem
