@@ -12,6 +12,45 @@ El tema se elige en `src/cli/components/theme.ts`: `LETTA_THEME=matrixa` (lo pon
 o `"theme": "matrixa"` en `~/.letta/settings.json`. Sin eso, el CLI se comporta 100% como upstream.
 Todo lo nuestro está marcado en el código con el comentario `MATRIXÄ`. Documentation completa: [docs/MATRIXA.md](docs/MATRIXA.md).
 
+## PLAN — hoja de ruta
+
+### Estado (verificado 14-nov, rama `matrixa`, HEAD `8d34bf6e` sincronizado)
+
+| Área | Estado | Nota |
+|---|---|---|
+| Identidad | ✅ | Tema MATRIXÄ (`theme.ts` + `colors.ts`), fósforo puro; cambio por env/settings |
+| Marca en UI | ✅ | Cero "Letta" visible (bienvenida, login, comandos, GitHub, appName); técnico intacto a propósito |
+| Idioma | 🟡 | ES por defecto (welcome, carga, verbos, pistas, 66 descripciones). Pendiente tanda C: errores, aprobaciones, selectores, /help |
+| Logo | ✅ | ASCII de Carlos tal cual (8 filas, tinte por clase de trazo), estático, adaptado al ancho |
+| Proveedores | ✅ | Infinitä registrado (`/connect infinita`, autodetect `127.0.0.1:8470/v1`, handles `infinita/…`); Gemini ya venía (`/connect gemini`) |
+| Desktop | ✅ | Lanzador `scripts/matrixa.sh` → `~/.local/bin/matrixa`; **Super+M** en bindings.lua (verificado en runtime, sin conflictos); config foot en `desktop/` |
+| Ahorro | 🟡 | rtk 1.2.0 instalado (uso manual); automático = plato 12 |
+| Calidad | ✅ | 17 rondas con los 13 portones upstream + tsc verdes; suite `qc/` re-ejecutable |
+
+### Qué viene
+
+**Fase 1 — inmediata (esta semana)**
+1. **rtk automático (plato 12)**: el Bash tool pasa los comandos por `rtk` cuando hay patrón conocido (git/test/ls/gh…), con apagado por settings; métricas en statusline vía `/gain`. Al terminar: PR a rtk-ai/rtk para ser el agente 19 oficial.
+2. **Super+M → navegador de agentes**: hoy la app hereda el último agente (salió Eido sin querer). No existe flag de arranque; lo fabricamos en el fork (overlay "resume" al arrancar). Es cambio de arquitectura de arranque, no cosmético.
+3. **i18n tanda C**: errores del executor, aprobaciones, selectores de modelo/agente y `/help` completo en español.
+
+**Fase 2 — marca**
+4. **green-rain (plato 11)**: lluvia Matrix como fondo vivo del TUI y en transiciones (materializado del logo al arrancar). Componente `MatrixRain` ya existe y calibrado; es diseñar dónde vive.
+5. **/colmena (plato 13)**: panel en-terminal con los agentes de la casa (tokens, coste, horas, estado) reutilizando el motor de CENSÄ. Datos ya sumados cada noche en casa → sale casi gratis.
+6. **/matrix on|off** (lluvia y temas) y **/elvis** (ruleta del Elvis accesible desde el chat).
+7. **Voz (plato 4)**: `edge-tts` primero (ligero), `piper` después si queremos offline del todo; integrado con el motor de turn-sounds de la casa (que ya suena: el fork debe detectar el mod y no duplicar).
+
+**Fase 3 — casa física y extras**
+8. **openhue (plato 10)**: luces en verde cuando un turno termina, ámbar cuando hay aprobación pendiente.
+9. **Skills** `ascii-art` + `theme-factory` (Hermes) para generar identidades de la casa bajo demanda.
+10. **delta + difftastic** (plato 2): **BLOQUEADO esperando OK** — entran por pacman (sudo). Tu decisión.
+11. **Windowrule persistente** para la ventana MATRIXÄ (190 columnas nativas para el logo): toca tu config Hyprland → igualmente necesita tu OK.
+
+### Riesgos y reglas de la casa
+- Upstream avanza rápido: sincronía semanal `git fetch upstream && git merge` (nuestros cambios están marcados `MATRIXÄ` para resolver conflictos con bisturí).
+- Todo paso por los 13 portones + tsc ANTES de push; nunca `--no-verify`; pipes que coman exit codes, prohibidos.
+- El almacén de la casa es compartido: nada de matar/lanzar agentes en la misma línea de comando (pgrep se pisa a sí mismo; lección pagada cuatro veces).
+
 La documentación original del proyecto sigue debajo.
 
 ---
