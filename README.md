@@ -1,3 +1,21 @@
+# MATRIXÄ
+
+> Fork personal de [Letta Code](https://github.com/letta-ai/letta-code) con la estética de la casa:
+> verde fósforo sobre negro, verbos de Matrix y detalles propios. Rama de trabajo: `matrixa`.
+
+```bash
+bun install                # una vez
+./scripts/matrixa.sh       # lanzar el CLI con el tema MATRIXÄ (no toca tu letta de pipx)
+```
+
+El tema se elige en `src/cli/components/theme.ts`: `LETTA_THEME=matrixa` (lo pone `scripts/matrixa.sh`)
+o `"theme": "matrixa"` en `~/.letta/settings.json`. Sin eso, el CLI se comporta 100% como upstream.
+Todo lo nuestro está marcado en el código con el comentario `MATRIXÄ`. Documentation completa: [docs/MATRIXA.md](docs/MATRIXA.md).
+
+La documentación original del proyecto sigue debajo.
+
+---
+
 # Letta Code
 
 [![npm](https://img.shields.io/npm/v/@letta-ai/letta-code.svg?style=flat-square)](https://www.npmjs.com/package/@letta-ai/letta-code) [![Discord](https://img.shields.io/badge/discord-join-blue?style=flat-square&logo=discord)](https://discord.gg/letta)

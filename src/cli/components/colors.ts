@@ -10,6 +10,7 @@ import {
   getTerminalTheme,
   type TerminalRgb,
 } from "@/cli/helpers/terminal-theme";
+import { getPalette } from "./theme"; // MATRIXÄ
 
 /**
  * Parse a hex color (#RRGGBB) to RGB components.
@@ -73,7 +74,7 @@ export function hexToFgAnsi(hex: string): string {
 }
 
 // Brand colors (dark mode)
-export const brandColors = {
+const brandColorsUpstream = {
   orange: "#FF5533", // dark orange
   blue: "#0707AC", // dark blue
   // text colors
@@ -89,7 +90,7 @@ export const brandColors = {
 } as const;
 
 // Brand colors (light mode)
-export const brandColorsLight = {
+const brandColorsLightUpstream = {
   orange: "#FF5533", // dark orange
   blue: "#0707AC", // dark blue
   // text colors
@@ -103,6 +104,26 @@ export const brandColorsLight = {
   statusWarning: "#B98813", // yellow
   statusError: "#BA024C", // red
 } as const;
+
+// MATRIXÄ — verde fósforo sobre negro, con el oro y el magenta de la casa.
+// Mismas claves que brandColors: los 9 módulos que leen colores no se enteran.
+const brandColorsMatrixa = {
+  orange: "#FF8FD8", // magenta de acento cálido
+  blue: "#0B2416", // verde abismo (fondos de caja)
+  primaryAccent: "#7DFBA0", // fósforo — el color de la casa
+  primaryAccentLight: "#B8FFD1", // fósforo claro
+  textMain: "#D6FFEA", // blanco verdoso
+  textSecondary: "#7DBB96", // verde grisáceo medio
+  textDisabled: "#2C5A41", // verde oscuro de pistas (el del censo)
+  statusSuccess: "#39FF14", // neón
+  statusWarning: "#FFD479", // oro de estrellita
+  statusError: "#FF6B81", // rosa de alarma
+} as const;
+
+// MATRIXÄ: la paleta se fija al cargar el módulo (theme.ts lo hace síncrono).
+export const brandColors =
+  getPalette() === "matrixa" ? brandColorsMatrixa : brandColorsUpstream;
+export const brandColorsLight = brandColorsLightUpstream;
 
 // Semantic color system
 const _colors = {
@@ -218,6 +239,24 @@ const _colors = {
     substitution: "#e64553",
   },
 
+  shellSyntaxMatrixa: {
+    prompt: "#7DFBA0",
+    text: "#D6FFEA",
+    comment: "#3F7A5C",
+    keyword: "#A8FFC4",
+    string: "#FFD479",
+    number: "#FF8FD8",
+    literal: "#FF8FD8",
+    builtIn: "#B8FFD1",
+    variable: "#FFD479",
+    title: "#7DFBA0",
+    attr: "#A8FFC4",
+    operator: "#7DBB96",
+    punctuation: "#7DBB96",
+    meta: "#FF6B81",
+    substitution: "#FF8FD8",
+  },
+
   // Todo list
   todo: {
     completed: brandColors.primaryAccent, // Same blue as in-progress, with strikethrough
@@ -296,6 +335,7 @@ export const colors = {
   ..._colors,
 
   get shellSyntax() {
+    if (getPalette() === "matrixa") return _colors.shellSyntaxMatrixa;
     return getTerminalTheme() === "light"
       ? _colors.shellSyntaxLight
       : _colors.shellSyntaxDark;
@@ -304,6 +344,9 @@ export const colors = {
   // User messages (past prompts) - theme-aware background
   // Uses getter to read theme at render time (after async init)
   get userMessage() {
+    if (getPalette() === "matrixa") {
+      return { background: "#0B2416", text: undefined }; // verde abismo
+    }
     return {
       background: getCodexUserMessageBackground(),
       text: undefined, // use default terminal text color

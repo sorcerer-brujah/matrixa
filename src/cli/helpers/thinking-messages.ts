@@ -1,4 +1,22 @@
+// MATRIXÄ — verbos de la casa: el agent no "piensa", hackea la Matrix.
+const MATRIXA_THINKING_VERBS = Object.freeze([
+  "decoding the Matrix",
+  "following the white rabbit",
+  "jacking into the mainframe",
+  "interrogating the oracle",
+  "tracing the signal",
+  "rewiring the hive",
+  "summoning Elvis",
+  "dusting tokens",
+  "consulting the census",
+  "sipping from the Source",
+  "unplugging, then replugging",
+  "negotiating with zero",
+]);
+
 // Machine god AI themed thinking verbs
+import { getPalette } from "@/cli/components/theme"; // MATRIXÄ
+
 const THINKING_VERBS = Object.freeze([
   "thinking",
   "processing",
@@ -106,6 +124,11 @@ const PAST_TENSE_VERBS: Record<ThinkingVerb, string> = {
 
 // Get a random thinking verb (e.g., "thinking", "processing")
 function getRandomVerb(): string {
+  // MATRIXÄ: si el tema de la casa está activo, elige de sus verbos
+  if (getPalette() === "matrixa") {
+    const idx = Math.floor(Math.random() * MATRIXA_THINKING_VERBS.length);
+    return MATRIXA_THINKING_VERBS[idx] ?? "decoding the Matrix";
+  }
   const index = Math.floor(Math.random() * THINKING_VERBS.length);
   return THINKING_VERBS[index] ?? "thinking";
 }
