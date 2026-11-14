@@ -12,6 +12,7 @@ import { AnimatedLogo } from "@/cli/components/AnimatedLogo";
 import { colors } from "@/cli/components/colors";
 import { Text } from "@/cli/components/Text";
 import { getPalette } from "@/cli/components/theme";
+import { WelcomeScreen } from "@/cli/components/WelcomeScreen"; // MATRIXÄ
 
 const OUT = process.argv[2] ?? "/tmp/matrixa-demo.ans";
 const chunks: string[] = [];
@@ -53,6 +54,11 @@ function Demo() {
         leoben@thinkpad:~$ ./scripts/matrixa.sh — tema: {getPalette()}
       </Text>
       <AnimatedLogo animate={false} />
+      <WelcomeScreen
+        loadingState="ready"
+        continueSession={false}
+        agentState={null}
+      />
       <Box marginTop={1}>
         <Text color={colors.welcome.accent} bold>
           MATRIXÄ — fork de Letta Code · la colmena en verde

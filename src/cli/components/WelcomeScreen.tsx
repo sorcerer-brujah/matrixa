@@ -11,6 +11,7 @@ import { getVersion } from "@/version";
 import { AnimatedLogo } from "./AnimatedLogo";
 import { colors } from "./colors";
 import { Text } from "./Text";
+import { getPalette } from "./theme"; // MATRIXÄ
 
 /**
  * Convert absolute path to use ~ for home directory
@@ -126,6 +127,9 @@ export function WelcomeScreen({
     ? settingsManager.isMemfsEnabled(agentState.id)
     : true; // Don't warn while agent is still loading
 
+  // MATRIXÄ: identidad de la casa en la bienvenida (solo con el tema activo)
+  const matrixa = getPalette() === "matrixa";
+
   return (
     <Box flexDirection="row" marginTop={1}>
       {/* Left column: Logo */}
@@ -138,10 +142,26 @@ export function WelcomeScreen({
 
       {/* Right column: Text info */}
       <Box flexDirection="column" marginTop={0}>
-        {/* Row 1: Letta Code + version */}
+        {matrixa && (
+          <Box marginBottom={0}>
+            <Text bold color={colors.welcome.accent}>
+              {"M A T R I X  Ä"}
+            </Text>
+            <Text dimColor>
+              {"  // fork de Letta Code · la colmena en verde"}
+            </Text>
+          </Box>
+        )}
+        {/* Row 1: Letta Code + version (MATRIXÄ rebautiza cuando toca) */}
         <Box>
-          <Text bold>Letta Code</Text>
-          <Text color="gray"> v{version}</Text>
+          <Text bold color={matrixa ? colors.welcome.accent : undefined}>
+            {matrixa ? "MATRIXÄ" : "Letta Code"}
+          </Text>
+          <Text color="gray">
+            {" "}
+            v{version}
+            {matrixa ? " · matrixa" : ""}
+          </Text>
         </Box>
         {/* Row 2: model · auth (or just auth while loading) */}
         <Text color="gray">
@@ -150,8 +170,10 @@ export function WelcomeScreen({
         {/* Row 3: loading status, then path once ready */}
         <Text color="gray">
           {loadingState === "ready"
-            ? tildePath
-            : getLoadingMessage(loadingState, !!continueSession)}
+            ? matrixa
+              ? `${tildePath}  · wake up, Neo…`
+              : tildePath
+            : getLoadingMessage(loadingState, !!continueSession, matrixa)}
         </Text>
         {/* Row 4: memfs warning if not enabled (skip for self-hosted servers) */}
         {loadingState === "ready" && !memfsEnabled && authMethod !== "url" && (
@@ -168,7 +190,21 @@ export function WelcomeScreen({
 function getLoadingMessage(
   loadingState: LoadingState,
   continueSession: boolean,
+  matrixa = false,
 ): string {
+  // MATRIXÄ: los mensajes de carga en cristiano de la Matrix
+  if (matrixa) {
+    const neo: Record<string, string> = {
+      loading_profiles: "Waking the hive…",
+      initializing: continueSession
+        ? "Replugging the rabbit hole…"
+        : "Following the white rabbit…",
+      assembling: "Assembling reality…",
+      checking: "Checking for red pills…",
+      selecting_global: "Choosing your pill…",
+    };
+    return neo[loadingState] ?? "Decoding the Matrix…";
+  }
   switch (loadingState) {
     case "loading_profiles":
       return "Loading pinned agents...";
