@@ -7,5 +7,5 @@ REPO="$(cd "$(dirname "$(readlink -f "$0")")/../Projects/matrixa" 2>/dev/null &&
 [ -d "$REPO" ] || REPO="$HOME/Projects/matrixa"
 cd "$REPO"
 export LETTA_THEME="${LETTA_THEME:-matrixa}"
-exec foot -c "$REPO/desktop/matrixa-foot.ini" -e bash -lc \
-  "cd '$REPO' && bun --loader=.md:text --loader=.mdx:text --loader=.txt:text run src/index.ts"
+exec foot --app-id=MATRIXA -c "$REPO/desktop/matrixa-foot.ini" -e bash -lc \
+  "cd '$REPO' && bun --loader=.md:text --loader=.mdx:text --loader=.txt:text run src/index.ts --resume"

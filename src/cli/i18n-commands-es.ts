@@ -107,6 +107,8 @@ const ES_COMMAND_DESCS: Record<string, string> = {
     "Quitar todas las herramientas de MATRIXÄ del agente (obsoleto: usa /toolset)",
   "Resume a previous conversation": "Retomar una conversación anterior",
   "Browse pinned agents": "Ver agentes fijados",
+  "Show rtk token savings (rtk gain)":
+    "Ver el ahorro de tokens de rtk (rtk gain)",
 };
 
 export function td(desc: string): string {

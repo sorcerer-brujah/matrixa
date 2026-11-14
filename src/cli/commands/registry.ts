@@ -1,6 +1,8 @@
 // src/cli/commands/registry.ts
 // Registry of available CLI commands
 
+import { spawnSync } from "node:child_process"; // MATRIXÄ (/gain)
+
 import {
   type DreamCommandScope,
   requestCloudReflectionRun,
@@ -432,6 +434,30 @@ export const commands: Record<string, Command> = {
       return "Sending feedback...";
     },
   },
+  // MATRIXÄ: métricas de ahorro de rtk (plato 1/12 del plan)
+  "/gain": {
+    desc: "Show rtk token savings (rtk gain)",
+    order: 20.5,
+    handler: () => {
+      try {
+        const r = spawnSync("rtk", ["gain", "--daily"], {
+          encoding: "utf-8",
+          timeout: 20000,
+        });
+        if (r.status !== 0) {
+          return r.stderr?.trim()
+            ? `rtk gain failed: ${r.stderr.trim().slice(0, 400)}`
+            : "rtk gain failed (is rtk installed? curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh)";
+        }
+        return (r.stdout || "rtk: no savings recorded yet")
+          .trim()
+          .slice(0, 3000);
+      } catch {
+        return "rtk not available on this machine (install: see rtk-ai/rtk)";
+      }
+    },
+  },
+
   "/help": {
     desc: "Show available commands",
     order: 35,
