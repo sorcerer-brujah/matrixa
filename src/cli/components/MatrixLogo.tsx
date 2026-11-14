@@ -36,14 +36,13 @@ const GRUESO = new Set([
 const DIGITOS = new Set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]);
 const T_INCAN = "#d6ffd6";
 const T_FOSFORO = "#7dfba0";
-const T_MEDIO = "#2fae62";
-const T_PINO = "#186034";
 
 function tinte(c: string, par: boolean): string | undefined {
   if (c === " ") return undefined;
   if (GRUESO.has(c)) return par ? T_INCAN : T_FOSFORO;
   if (DIGITOS.has(c)) return T_FOSFORO;
-  return par ? T_MEDIO : T_PINO;
+  // lluvia de trazos finos: verde casi negro, que el logo se lea limpio
+  return "#123f22";
 }
 
 /** Trocea una fila en tramos del mismo estado (grueso/digito/fino/aire) para emitir pocos <Text>. */
