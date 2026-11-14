@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { getModelDisplayName } from "@/agent/model";
 import { isLocalBackendEnabled } from "@/backend";
 import { getStartupModelDisplayOverride } from "@/cli/helpers/startup-model-display";
-import { useTerminalWidth } from "@/cli/hooks/use-terminal-width"; // MATRIXÄ: lluvia a ancho completo
+import { useTerminalWidth } from "@/cli/hooks/use-terminal-width";
 import { t } from "@/cli/i18n"; // MATRIXÄ i18n
 import { settingsManager } from "@/settings-manager";
 import { getVersion } from "@/version";
 import { AnimatedLogo } from "./AnimatedLogo";
 import { colors } from "./colors";
-import { MatrixRain } from "./MatrixRain"; // MATRIXÄ
+import { MatrixLogo } from "./MatrixLogo"; // MATRIXÄ: logo adaptativo de Carlos
 import { Text } from "./Text";
 import { getPalette } from "./theme"; // MATRIXÄ
 
@@ -82,7 +82,8 @@ export function WelcomeScreen({
   startupHasAvailableLocalModels?: boolean;
 }) {
   // MATRIXÄ: el ancho real manda en la lluvia de bienvenida
-  const termWidth = useTerminalWidth();
+  // Keep hook call for potential future responsive behavior
+  useTerminalWidth();
   const cwd = process.cwd();
   const version = getVersion();
 
@@ -137,12 +138,13 @@ export function WelcomeScreen({
       {/* MATRIXÄ: en casa la lluvia preside a todo lo ancho; el logo clásico
           se queda exactamente como estaba para el tema upstream */}
       {matrixa ? (
-        <Box paddingLeft={1} marginBottom={1}>
-          <MatrixRain
-            cols={Math.max(48, Math.min(termWidth - 7, 108))}
-            rows={6}
-            dropsPerCol={3}
-          />
+        <Box paddingLeft={1} marginBottom={1} flexDirection="column">
+          <MatrixLogo />
+          <Box width="100%" justifyContent="center">
+            <Text bold color={colors.welcome.accent}>
+              {t("welcome.subtitle")}
+            </Text>
+          </Box>
         </Box>
       ) : (
         <Box flexDirection="column" paddingLeft={1} paddingRight={2}>

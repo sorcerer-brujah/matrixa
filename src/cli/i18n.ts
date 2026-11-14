@@ -43,6 +43,8 @@ export function getLang(): Lang {
 
 const EN: Record<string, string> = {
   "welcome.tagline": "· the hive in green",
+  "welcome.subtitle":
+    "D I G I T A L   S O R C E R E R   —   the forge of the hive",
   "welcome.version_suffix": " · matrixa",
   "welcome.wake": "· wake up, Neo…",
   "load.profiles": "Waking the hive…",
@@ -56,11 +58,14 @@ const EN: Record<string, string> = {
   "ph.desktop": 'Try "help me organize my desktop"',
   "ph.debug": 'Try "debug this error"',
   "ph.explain": 'Try "explain what this function does"',
+  "ph.review": 'Try "review this pull request"',
   "thinking.local": "decoding the Matrix",
 };
 
 const ES: Record<string, string> = {
   "welcome.tagline": "· la colmena en verde",
+  "welcome.subtitle":
+    "D I G I T A L   S O R C E R E R   —   la forja de la colmena",
   "welcome.version_suffix": " · matrixa",
   "welcome.wake": "· despierta, Neo…",
   "load.profiles": "Despertando a la colmena…",
