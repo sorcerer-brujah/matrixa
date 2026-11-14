@@ -311,7 +311,7 @@ function buildStartupCommandHints(options: {
   }
 
   if (!hasCloudCredentials) {
-    onboardingHints.push("→ **/login**     sign in with Letta");
+    onboardingHints.push("→ **/login**     sign in with MATRIXÄ");
   }
 
   const dedupedHints: string[] = [];
@@ -1371,7 +1371,7 @@ export function App({
           kind: "status" as const,
           id: "update-notification",
           lines: [
-            `A new version of Letta Code is available (**${updateNotification}**). Restart to update!`,
+            `A new version of MATRIXÄ is available (**${updateNotification}**). Restart to update!`,
           ],
         },
       ];
@@ -4777,7 +4777,7 @@ export function App({
   const terminalTitleData = useMemo<WindowTitleData>(
     () => ({
       agentName,
-      appName: "Letta Code",
+      appName: "MATRIXÄ",
       version: getVersion(),
       conversationSummary,
       conversationId,

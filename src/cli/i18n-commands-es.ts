@@ -7,7 +7,7 @@
 
 const ES_COMMAND_DESCS: Record<string, string> = {
   "Browse agents (pinned, Letta Code, all)":
-    "Ver agentes (fijados, Letta Code, todos)",
+    "Ver agentes (fijados, MATRIXÄ, todos)",
   "Switch model": "Cambiar modelo",
   "Initialize (or re-init) your agent's memory":
     "Inicializar (o reinicializar) la memoria de tu agente",
@@ -76,7 +76,7 @@ const ES_COMMAND_DESCS: Record<string, string> = {
   "Show context window usage": "Ver el uso de la ventana de contexto",
   "Recompile current agent + conversation (warning: this will evict the cache and increase costs)":
     "Recompilar agente y conversación actuales (aviso: vacía la caché y encarece)",
-  "Send feedback to the Letta team": "Enviar comentarios al equipo de Letta",
+  "Send feedback to the Letta team": "Enviar comentarios al equipo MATRIXÄ",
   "Show available commands": "Ver los comandos disponibles",
   "Manage hooks configuration": "Gestionar la configuración de hooks",
   "Customize the bottom statusline": "Personalizar la barra de estado inferior",
@@ -88,12 +88,12 @@ const ES_COMMAND_DESCS: Record<string, string> = {
   "Setup terminal shortcuts [--revert]":
     "Configurar atajos de terminal [--revert]",
   "Setup Letta Code GitHub Action in this repo":
-    "Montar la GitHub Action de Letta Code en este repo",
+    "Montar la GitHub Action de MATRIXÄ en este repo",
   "Show background shell processes": "Ver procesos de shell en segundo plano",
   "Show workflow runs, their agents, and token usage":
     "Ver ejecuciones de workflow, sus agentes y tokens gastados",
   "Exit this session": "Salir de esta sesión",
-  "Sign in with Letta": "Entrar con Letta",
+  "Sign in with Letta": "Entrar con MATRIXÄ",
   "Clear saved credentials and exit":
     "Borrar las credenciales guardadas y salir",
   "Toggle token streaming on/off":
@@ -102,9 +102,9 @@ const ES_COMMAND_DESCS: Record<string, string> = {
     "Resumir el historial de la conversación (compactación) con modo opcional",
   "Alias for /context-limit": "Alias de /context-limit",
   "Attach all Letta Code tools to agent (deprecated, use /toolset instead)":
-    "Adjuntar todas las herramientas de Letta Code al agente (obsoleto: usa /toolset)",
+    "Adjuntar todas las herramientas de MATRIXÄ al agente (obsoleto: usa /toolset)",
   "Remove all Letta Code tools from agent (deprecated, use /toolset instead)":
-    "Quitar todas las herramientas de Letta Code del agente (obsoleto: usa /toolset)",
+    "Quitar todas las herramientas de MATRIXÄ del agente (obsoleto: usa /toolset)",
   "Resume a previous conversation": "Retomar una conversación anterior",
   "Browse pinned agents": "Ver agentes fijados",
 };

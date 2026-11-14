@@ -16,6 +16,7 @@ export const LOCAL_MODEL_HANDLE_PREFIXES = [
   "lmstudio/",
   "llama.cpp/",
   "llama-cpp/",
+  "infinita/", // MATRIXÄ
 ];
 
 export const LOCAL_CHATGPT_OAUTH_HANDLE_PREFIX = "openai-codex/";
@@ -40,6 +41,7 @@ const LLM_CONFIG_ENDPOINT_TYPE_MODEL_HANDLE_PROVIDERS = new Map([
   [CHATGPT_OAUTH_LLM_CONFIG_PROVIDER, OPENAI_CODEX_PROVIDER_NAME],
   ["lmstudio", "lmstudio"],
   ["lmstudio_openai", "lmstudio"],
+  ["infinita_openai", "infinita"],
   ["llamacpp", "llama.cpp"],
   ["llama_cpp", "llama.cpp"],
   ["llama.cpp", "llama.cpp"],
@@ -57,6 +59,7 @@ const MODEL_HANDLE_PROVIDER_LLM_CONFIG_ENDPOINT_TYPES = new Map([
 
 const MODEL_SETTINGS_PROVIDER_LLM_CONFIG_ENDPOINT_TYPES = new Map([
   ["lmstudio_openai", "lmstudio"],
+  ["infinita_openai", "infinita"],
   ["llama_cpp", "llamacpp"],
   ["llama.cpp", "llamacpp"],
   ["ollama_cloud", "openai"],

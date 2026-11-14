@@ -50,7 +50,7 @@ async function handleReflectionCommand(
 export const commands: Record<string, Command> = {
   // === Page 1: Most commonly used (order 10-19) ===
   "/agents": {
-    desc: "Browse agents (pinned, Letta Code, all)",
+    desc: "Browse agents (pinned, MATRIXÄ, all)",
     order: 10,
     noArgs: true,
     handler: () => {
@@ -550,7 +550,7 @@ export const commands: Record<string, Command> = {
     },
   },
   "/install-github-app": {
-    desc: "Setup Letta Code GitHub Action in this repo",
+    desc: "Setup MATRIXÄ GitHub Action in this repo",
     order: 38,
     noArgs: true,
     handler: () => {
@@ -637,7 +637,7 @@ export const commands: Record<string, Command> = {
     },
   },
   "/link": {
-    desc: "Attach all Letta Code tools to agent (deprecated, use /toolset instead)",
+    desc: "Attach all MATRIXÄ tools to agent (deprecated, use /toolset instead)",
     hidden: true,
     noArgs: true,
     handler: () => {
@@ -646,7 +646,7 @@ export const commands: Record<string, Command> = {
     },
   },
   "/unlink": {
-    desc: "Remove all Letta Code tools from agent (deprecated, use /toolset instead)",
+    desc: "Remove all MATRIXÄ tools from agent (deprecated, use /toolset instead)",
     hidden: true,
     noArgs: true,
     handler: () => {

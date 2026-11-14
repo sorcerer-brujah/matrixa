@@ -157,14 +157,6 @@ export function WelcomeScreen({
 
       {/* Right column: Text info */}
       <Box flexDirection="column" marginTop={0}>
-        {matrixa && (
-          <Box marginBottom={0}>
-            <Text bold color={colors.welcome.accent}>
-              {"M A T R I X  Ä"}
-            </Text>
-            <Text dimColor>{"  · la colmena en verde"}</Text>
-          </Box>
-        )}
         {/* Row 1: Letta Code + version (MATRIXÄ rebautiza cuando toca) */}
         <Box>
           <Text bold color={matrixa ? colors.welcome.accent : undefined}>

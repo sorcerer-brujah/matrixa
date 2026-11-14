@@ -42,17 +42,16 @@ export function getLang(): Lang {
 }
 
 const EN: Record<string, string> = {
-  "welcome.tagline": "· the hive in green",
-  "welcome.subtitle":
-    "D I G I T A L   S O R C E R E R   —   the forge of the hive",
+  "welcome.tagline": "",
+  "welcome.subtitle": "D I G I T A L   S O R C E R E R",
   "welcome.version_suffix": " · matrixa",
   "welcome.wake": "· wake up, Neo…",
-  "load.profiles": "Waking the hive…",
-  "load.init_new": "Following the white rabbit…",
-  "load.init_resume": "Replugging the rabbit hole…",
-  "load.assembling": "Assembling reality…",
+  "load.profiles": "Loading session…",
+  "load.init_new": "Establishing connection…",
+  "load.init_resume": "Restoring session…",
+  "load.assembling": "Loading tools…",
   "load.checking": "Checking for red pills…",
-  "load.selecting": "Choosing your pill…",
+  "load.selecting": "Selecting…",
   "load.default": "Decoding the Matrix…",
   "ph.help": 'Try "help me understand this codebase"',
   "ph.desktop": 'Try "help me organize my desktop"',
@@ -63,17 +62,16 @@ const EN: Record<string, string> = {
 };
 
 const ES: Record<string, string> = {
-  "welcome.tagline": "· la colmena en verde",
-  "welcome.subtitle":
-    "D I G I T A L   S O R C E R E R   —   la forja de la colmena",
+  "welcome.tagline": "",
+  "welcome.subtitle": "D I G I T A L   S O R C E R E R",
   "welcome.version_suffix": " · matrixa",
   "welcome.wake": "· despierta, Neo…",
-  "load.profiles": "Despertando a la colmena…",
-  "load.init_new": "Siguiendo al conejo blanco…",
-  "load.init_resume": "Reconectando con la madriguera…",
-  "load.assembling": "Ensamblando la realidad…",
+  "load.profiles": "Cargando sesión…",
+  "load.init_new": "Estableciendo conexión…",
+  "load.init_resume": "Restaurando sesión…",
+  "load.assembling": "Cargando herramientas…",
   "load.checking": "Buscando pastillas rojas…",
-  "load.selecting": "Eligiendo tu pastilla…",
+  "load.selecting": "Seleccionando…",
   "load.default": "Decodificando la Matrix…",
   "ph.help": "Prueba con «ayúdame a entender este código»",
   "ph.desktop": "Prueba con «ayúdame a ordenar el escritorio»",

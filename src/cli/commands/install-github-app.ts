@@ -206,7 +206,7 @@ export function generateLettaWorkflowYaml(options?: {
   includeAgentId?: boolean;
 }): string {
   const lines = [
-    "name: Letta Code",
+    "name: MATRIXÄ",
     "on:",
     "  issues:",
     "    types: [opened, labeled]",
@@ -241,7 +241,7 @@ export function generateLettaWorkflowYaml(options?: {
 
 export function buildInstallPrBody(workflowPath: string): string {
   return [
-    "## 👾 Add Letta Code GitHub Workflow",
+    "## 👾 Add MATRIXÄ GitHub Workflow",
     "",
     `This PR adds [\`${workflowPath}\`](${workflowPath}), a GitHub Actions workflow that enables [Letta Code](https://docs.letta.com/letta-code) integration in this repository.`,
     "",
@@ -393,7 +393,7 @@ function createPullRequest(
   workflowPath: string,
   repoDir: string,
 ): { url: string; mode: "created" | "page-opened" } {
-  const title = "Add Letta Code GitHub Workflow";
+  const title = "Add MATRIXÄ GitHub Workflow";
   const body = buildInstallPrBody(workflowPath);
   const base = getDefaultBaseBranch(repoDir);
 
@@ -504,7 +504,7 @@ export async function installGithubApp(
     }
 
     runGit(["add", workflowPath], repoDir);
-    runGit(["commit", "-m", "Add Letta Code GitHub Workflow"], repoDir);
+    runGit(["commit", "-m", "Add MATRIXÄ GitHub Workflow"], repoDir);
 
     progress(onProgress, "Opening pull request page");
     runGit(["push", "-u", "origin", branchName], repoDir);

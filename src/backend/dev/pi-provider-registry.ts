@@ -17,6 +17,7 @@ export const LOCAL_OLLAMA_PROVIDER_NAME = "lc-ollama";
 export const LOCAL_OLLAMA_CLOUD_PROVIDER_NAME = "lc-ollama-cloud";
 export const LOCAL_LMSTUDIO_PROVIDER_NAME = "lc-lmstudio";
 export const LMSTUDIO_OPENAI_PROVIDER_TYPE = "lmstudio_openai";
+export const INFINITA_OPENAI_PROVIDER_TYPE = "infinita_openai"; // MATRIXÄ
 export const LEGACY_LMSTUDIO_PROVIDER_TYPE = "lmstudio";
 export const LOCAL_LLAMA_CPP_PROVIDER_NAME = "lc-llama-cpp";
 export const LOCAL_ZAI_PROVIDER_NAME = "lc-zai";
@@ -32,7 +33,8 @@ export type LocalEndpointProvider =
   | "ollama-cloud"
   | "openai-compatible"
   | "lmstudio"
-  | "llama-cpp";
+  | "llama-cpp"
+  | "infinita"; // MATRIXÄ
 
 export type PiProvider = KnownProvider | LocalEndpointProvider;
 
@@ -354,6 +356,23 @@ const LOCAL_ENDPOINT_PROVIDER_SPECS: readonly PiProviderSpec[] = [
     envConfigured: () =>
       hasEnvValue(process.env.LMSTUDIO_API_KEY) ||
       hasEnvValue(process.env.LMSTUDIO_BASE_URL),
+    createCustomModel: true,
+  },
+  {
+    // MATRIXÄ — Infinitä: el enrutador de LLMs coste 0 de la casa (OpenAI-compatible).
+    id: "infinita",
+    providerTypes: [INFINITA_OPENAI_PROVIDER_TYPE, "infinita"],
+    handlePrefixes: ["infinita/"],
+    localProviderNames: ["infinita"],
+    defaultBaseURL: "http://127.0.0.1:8470/v1",
+    apiKeyEnv: () => process.env.INFINITA_API_KEY,
+    baseUrlEnv: () => process.env.INFINITA_BASE_URL,
+    fallbackApiKey: "not-needed",
+    localModelDiscovery: "openai-compatible",
+    autoDetectLocalEndpoint: true,
+    envConfigured: () =>
+      hasEnvValue(process.env.INFINITA_API_KEY) ||
+      hasEnvValue(process.env.INFINITA_BASE_URL),
     createCustomModel: true,
   },
   {

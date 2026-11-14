@@ -21,6 +21,7 @@ import { listBuiltinOAuthProviders } from "@/backend/dev/pi-oauth";
 import { listRegisteredPiProviders } from "@/backend/dev/pi-provider-mod-registry";
 import {
   getPiProviderSpec,
+  INFINITA_OPENAI_PROVIDER_TYPE,
   LMSTUDIO_OPENAI_PROVIDER_TYPE,
   PI_PROVIDER_SPECS,
   PROVIDER_TYPE_TO_BASE_PROVIDER,
@@ -336,6 +337,24 @@ const LOCAL_EXTRA_PROVIDER_CONFIGS: readonly ByokProvider[] = [
         required: false,
       },
       { key: "apiKey", label: "API Key", secret: true, required: false },
+    ],
+  },
+  {
+    id: "infinita",
+    displayName: "Infinitä (local)",
+    description: "Conecta el enrutador Infinitä en http://127.0.0.1:8470/v1",
+    providerType: INFINITA_OPENAI_PROVIDER_TYPE,
+    providerName: "infinita",
+    providerNames: ["infinita"],
+    requiresApiKey: false,
+    defaultApiKey: LOCAL_PROVIDER_NO_API_KEY,
+    fields: [
+      {
+        key: "baseUrl",
+        label: "Base URL",
+        placeholder: "http://127.0.0.1:8470/v1",
+        required: false,
+      },
     ],
   },
   {
